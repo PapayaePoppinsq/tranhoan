@@ -8,16 +8,22 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --primary: #2563eb;
-    --dark: #1e293b;
+    --primary: #8b5cf6; /* Tím */
+    --primary-light: #c084fc;
+    --accent: #ec4899; /* Hồng */
+    --dark: #0f172a;
     --gray: #64748b;
-    --light: #f1f5f9;
     --border: #e2e8f0;
+    --gradient: linear-gradient(135deg, var(--primary), var(--accent));
   }
 
   body {
     font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
-    background: #e5e7eb;
+    background: #e2e8f0;
+    /* Background chuyển màu nhẹ cho toàn trang */
+    background-image: radial-gradient(circle at top right, #d8b4fe 0%, transparent 40%),
+                      radial-gradient(circle at bottom left, #fbcfe8 0%, transparent 40%);
+    background-attachment: fixed;
     color: var(--dark);
     line-height: 1.6;
     padding: 30px 15px;
@@ -27,61 +33,115 @@
     max-width: 900px;
     margin: 0 auto;
     background: #fff;
-    border-radius: 12px;
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+    box-shadow: 0 20px 50px rgba(139, 92, 246, 0.15);
     display: grid;
-    grid-template-columns: 300px 1fr;
-    animation: fadeIn 0.6s ease;
+    grid-template-columns: 320px 1fr;
+    animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid rgba(255,255,255,0.5);
   }
 
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(30px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
   }
 
   /* ===== SIDEBAR ===== */
   .sidebar {
     background: var(--dark);
+    background-image: linear-gradient(to bottom, #1e1b4b, #0f172a);
     color: #fff;
     padding: 40px 25px;
+    position: relative;
   }
 
-  .avatar {
-    width: 130px;
-    height: 130px;
+  .sidebar::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 200px;
+    background: radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.4), transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Khung chứa Avatar */
+  .avatar-container {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 25px;
+    z-index: 1;
+  }
+
+  /* Viền gradient xoay xung quanh Avatar */
+  .avatar-container::before {
+    content: '';
+    position: absolute;
+    top: -6px; left: -6px; right: -6px; bottom: -6px;
     border-radius: 50%;
-    background: var(--primary);
-    margin: 0 auto 20px;
+    background: var(--gradient);
+    z-index: -1;
+    animation: spin 6s linear infinite;
+  }
+
+  /* Nút Avatar bằng chữ (CSS) */
+  .avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--dark);
+    border: 4px solid #1e1b4b;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 48px;
-    font-weight: bold;
-    border: 4px solid rgba(255,255,255,0.15);
+    font-size: 46px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    background-image: var(--gradient);
+    box-shadow: inset 0 0 20px rgba(139, 92, 246, 0.2), 0 0 20px rgba(139, 92, 246, 0.4);
+    animation: float 4s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0px); }
+  }
+  @keyframes spin {
+    100% { transform: rotate(360deg); }
   }
 
   .sidebar h1 {
-    font-size: 22px;
+    font-size: 24px;
     text-align: center;
     margin-bottom: 5px;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+    position: relative;
+    z-index: 1;
   }
 
   .sidebar .role {
     text-align: center;
-    color: #94a3b8;
+    color: #cbd5e1;
     font-size: 14px;
     margin-bottom: 30px;
+    letter-spacing: 1px;
   }
 
-  .sidebar-section { margin-bottom: 28px; }
+  .sidebar-section { margin-bottom: 28px; position: relative; z-index: 1; }
 
   .sidebar-section h2 {
     font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 2px;
-    color: var(--primary);
-    border-bottom: 1px solid rgba(255,255,255,0.15);
+    color: var(--primary-light);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
     padding-bottom: 8px;
     margin-bottom: 14px;
   }
@@ -89,39 +149,48 @@
   .contact-item {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     font-size: 13.5px;
-    margin-bottom: 10px;
-    color: #cbd5e1;
+    margin-bottom: 12px;
+    color: #e2e8f0;
     word-break: break-word;
+    transition: transform 0.2s;
+  }
+  
+  .contact-item:hover {
+    transform: translateX(5px);
+    color: #fff;
   }
 
   .contact-item span.icon {
-    font-size: 16px;
+    font-size: 18px;
     flex-shrink: 0;
+    filter: drop-shadow(0 0 5px var(--primary));
   }
 
-  .skill { margin-bottom: 12px; }
+  .skill { margin-bottom: 15px; }
 
   .skill-name {
     font-size: 13.5px;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
     display: flex;
     justify-content: space-between;
+    font-weight: 500;
   }
 
   .skill-bar {
     height: 6px;
-    background: rgba(255,255,255,0.12);
-    border-radius: 3px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
     overflow: hidden;
   }
 
   .skill-bar div {
     height: 100%;
-    background: var(--primary);
-    border-radius: 3px;
-    animation: grow 1s ease;
+    background: var(--gradient);
+    border-radius: 10px;
+    box-shadow: 0 0 10px var(--primary);
+    animation: grow 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   @keyframes grow { from { width: 0 !important; } }
@@ -129,17 +198,18 @@
   /* ===== MAIN ===== */
   .main { padding: 40px 35px; }
 
-  .section { margin-bottom: 30px; }
+  .section { margin-bottom: 35px; }
 
   .section h2 {
     font-size: 18px;
-    color: var(--primary);
+    color: var(--dark);
     text-transform: uppercase;
     letter-spacing: 1.5px;
     border-bottom: 2px solid var(--border);
     padding-bottom: 8px;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
     position: relative;
+    display: inline-block;
   }
 
   .section h2::after {
@@ -147,17 +217,17 @@
     position: absolute;
     bottom: -2px;
     left: 0;
-    width: 50px;
+    width: 100%;
     height: 2px;
-    background: var(--primary);
+    background: var(--gradient);
   }
 
-  .summary { color: var(--gray); font-size: 14.5px; }
+  .summary { color: var(--gray); font-size: 14.5px; text-align: justify; }
 
   .timeline-item {
     position: relative;
-    padding-left: 22px;
-    padding-bottom: 20px;
+    padding-left: 24px;
+    padding-bottom: 24px;
     border-left: 2px solid var(--border);
   }
 
@@ -166,25 +236,33 @@
   .timeline-item::before {
     content: '';
     position: absolute;
-    left: -7px;
-    top: 5px;
-    width: 12px;
-    height: 12px;
+    left: -8px;
+    top: 4px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
     background: #fff;
     border: 3px solid var(--primary);
+    box-shadow: 0 0 10px var(--primary-light);
+    transition: 0.3s;
+  }
+
+  .timeline-item:hover::before {
+    background: var(--primary);
+    transform: scale(1.2);
   }
 
   .timeline-item h3 {
-    font-size: 15.5px;
+    font-size: 16px;
     color: var(--dark);
+    margin-bottom: 2px;
   }
 
   .timeline-item .meta {
     font-size: 13px;
     color: var(--primary);
     font-weight: 600;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
   }
 
   .timeline-item p {
@@ -195,23 +273,27 @@
   .projects {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 14px;
+    gap: 16px;
   }
 
   .project-card {
-    background: var(--light);
-    padding: 14px 16px;
-    border-radius: 8px;
-    border-left: 3px solid var(--primary);
-    transition: 0.2s;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.8);
+    border-left: 4px solid var(--primary);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .project-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(37,99,235,0.15);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(139, 92, 246, 0.2);
+    border-left-color: var(--accent);
   }
 
-  .project-card h4 { font-size: 14.5px; margin-bottom: 4px; }
+  .project-card h4 { font-size: 15px; margin-bottom: 6px; color: var(--dark); }
   .project-card p { font-size: 13px; color: var(--gray); }
 
   /* ===== RESPONSIVE ===== */
@@ -219,13 +301,15 @@
     .cv { grid-template-columns: 1fr; }
     .projects { grid-template-columns: 1fr; }
     .main { padding: 30px 22px; }
-    .sidebar { padding: 30px 22px; }
+    .sidebar { padding: 40px 22px; }
   }
 
   /* ===== PRINT ===== */
   @media print {
     body { background: #fff; padding: 0; }
-    .cv { box-shadow: none; border-radius: 0; }
+    .cv { box-shadow: none; border-radius: 0; border: none; }
+    .avatar { animation: none; box-shadow: none; }
+    .avatar-container::before { display: none; }
   }
 </style>
 </head>
@@ -234,7 +318,11 @@
 <div class="cv">
   <!-- SIDEBAR -->
   <aside class="sidebar">
-    <div class="avatar">TCH</div>
+    <!-- AVATAR BẰNG CHỮ CSS -->
+    <div class="avatar-container">
+      <div class="avatar">TCH</div>
+    </div>
+    
     <h1>Trần Công Hoàn</h1>
     <p class="role">Lập trình viên Web</p>
 
