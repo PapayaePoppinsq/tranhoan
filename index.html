@@ -84,24 +84,15 @@
     animation: spin 6s linear infinite;
   }
 
-  /* Nút Avatar bằng chữ (CSS) */
+  /* Avatar hình ảnh */
   .avatar {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background: var(--dark);
+    object-fit: cover;
+    display: block;
     border: 4px solid #1e1b4b;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 46px;
-    font-weight: 900;
-    letter-spacing: 2px;
-    color: transparent;
-    background-clip: text;
-    -webkit-background-clip: text;
-    background-image: var(--gradient);
-    box-shadow: inset 0 0 20px rgba(139, 92, 246, 0.2), 0 0 20px rgba(139, 92, 246, 0.4);
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
     animation: float 4s ease-in-out infinite;
   }
 
@@ -318,9 +309,9 @@
 <div class="cv">
   <!-- SIDEBAR -->
   <aside class="sidebar">
-    <!-- AVATAR BẰNG CHỮ CSS -->
+    <!-- AVATAR HÌNH ẢNH -->
     <div class="avatar-container">
-      <div class="avatar">TCH</div>
+      <img src="canada.jpg" alt="Avatar - Trần Công Hoàn" class="avatar" onerror="this.onerror=null;this.src='canada.png';">
     </div>
     
     <h1>Trần Công Hoàn</h1>
